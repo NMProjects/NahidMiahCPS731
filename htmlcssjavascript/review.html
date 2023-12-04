@@ -1,0 +1,395 @@
+    <!DOCTYPE html>
+    <html lang="en">
+        <meta charset="UTF-8" />
+        <title>Review</title>
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <link rel="stylesheet" href="index.css" />
+        <script src="navbar.js"></script>
+        <script>
+            window.addEventListener("load", function () {
+                var subButton = document.getElementById("submit");
+                document
+                    .getElementById("reviewType")
+                    .addEventListener("change", function () {
+                        const universityFields =
+                            document.getElementById("universityFields");
+                        const professorFields =
+                            document.getElementById("professorFields");
+                        const courseFields =
+                            document.getElementById("courseFields");
+
+                        universityFields.style.display = "none";
+                        professorFields.style.display = "none";
+                        courseFields.style.display = "none";
+
+                        const selectedValue = this.value;
+                        var res = document.getElementById("result");
+                        res.innerText = "";
+                        if (selectedValue === "university") {
+                            universityFields.style.display = "block";
+                        } else if (selectedValue === "professor") {
+                            professorFields.style.display = "block";
+                        } else if (selectedValue === "course") {
+                            courseFields.style.display = "block";
+                        }
+                    });
+            });
+            async function submitReview() {
+                var subButton = document.getElementById("submit");
+                subButton.style.display = "none";
+                const selectedValue = document.getElementById("reviewType").value;
+                var res = document.getElementById("result");
+                if (selectedValue == "") {
+                    res.innerText = "Please Select A Review Type";
+                } else if (selectedValue == "course") {
+                    var user = localStorage.getItem("login");
+                    var type = selectedValue;
+                    var course = document.getElementById("courseC").value;
+                    var difficulty = document.getElementById("difficulty").value;
+                    var enjoyment = document.getElementById("enjoyment").value;
+                    var material = document.getElementById("material").value;
+                    var review = document.getElementById("reviewText").value;
+                    var grade = document.getElementById("grade").value;
+                    var reviewTitle = document.getElementById("reviewTitle").value;
+                    var rating = document.getElementById("rating").value;
+                    var university = document.getElementById("university").value;
+
+                    console.log(document.getElementById("review"));
+                    var data = {
+                        type: type,
+                        course: course,
+                        difficulty: difficulty,
+                        enjoyment: enjoyment,
+                        material: material,
+                        review: review,
+                        grade: grade,
+                        reviewTitle: reviewTitle,
+                        user: user,
+                        rating: rating,
+                        university: university,
+                    };
+
+                    const response = await fetch(
+                        "http://localhost:3000/postReview/",
+                        {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                            },
+                            body: JSON.stringify(data),
+                        }
+                    );
+
+                    if (response.ok) {
+                        res.innerText = "Review Submitted!";
+                    } else {
+                        resultMsg.innerText = "Review Failed!";
+                    }
+                } else if (selectedValue == "professor") {
+                    var user = localStorage.getItem("login");
+                    var type = selectedValue;
+                    var course = document.getElementById("courseP").value;
+                    var clarity = document.getElementById("clarity").value;
+                    var grading = document.getElementById("grading").value;
+                    var helpfulness = document.getElementById("helpfulness").value;
+                    var review = document.getElementById("reviewText").value;
+                    var reviewTitle = document.getElementById("reviewTitle").value;
+                    var rating = document.getElementById("rating").value;
+                    var university = document.getElementById("university").value;
+                    var professor = document.getElementById("professor").value;
+
+                    var data = {
+                        type: type,
+                        course: course,
+                        clarity: clarity,
+                        gradingDifficulty: grading,
+                        helpfulness: helpfulness,
+                        review: review,
+                        reviewTitle: reviewTitle,
+                        user: user,
+                        rating: rating,
+                        university: university,
+                        professor: professor,
+                    };
+
+                    const response = await fetch(
+                        "http://localhost:3000/postReview/",
+                        {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                            },
+                            body: JSON.stringify(data),
+                        }
+                    );
+
+                    if (response.ok) {
+                        res.innerText = "Review Submitted!";
+                    } else {
+                        resultMsg.innerText = "Review Failed!";
+                    }
+                } else if (selectedValue == "university") {
+                    var user = localStorage.getItem("login");
+                    var type = selectedValue;
+                    var university = document.getElementById("university").value;
+                    var review = document.getElementById("reviewText").value;
+                    var reviewTitle = document.getElementById("reviewTitle").value;
+                    var rating = document.getElementById("rating").value;
+
+                    var data = {
+                        type: type,
+                        university: university,
+                        review: review,
+                        reviewTitle: reviewTitle,
+                        user: user,
+                        rating: rating,
+                    };
+
+                    const response = await fetch(
+                        "http://localhost:3000/postReview/",
+                        {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                            },
+                            body: JSON.stringify(data),
+                        }
+                    );
+
+                    if (response.ok) {
+                        res.innerText = "Review Submitted!";
+                    } else {
+                        resultMsg.innerText = "Review Failed!";
+                    }
+                }
+                subButton.style.display = "block";
+            }
+        </script>
+
+        <body>
+            <header>
+                <nav>
+                    <ul>
+                        <li>
+                            <button onclick="window.location.href='index.html'">
+                                Home
+                            </button>
+                        </li>
+                        <li>
+                            <button
+                                id="review"
+                                onclick="window.location.href='review.html'"
+                            >
+                                Write a review
+                            </button>
+                        </li>
+                        <li>
+                            <button onclick="window.location.href='professor.html'">
+                                View Professor
+                            </button>
+                        </li>
+                        <li>
+                            <button onclick="window.location.href='course.html'">
+                                View Course
+                            </button>
+                        </li>
+                        <li>
+                            <button
+                                onclick="window.location.href='university.html'"
+                            >
+                                View University
+                            </button>
+                        </li>
+                        <li>
+                            <button
+                                id="login"
+                                onclick="window.location.href='login.html'"
+                            >
+                                Login
+                            </button>
+                        </li>
+                        <li>
+                            <button
+                                id="signup"
+                                onclick="window.location.href='signup.html'"
+                            >
+                                Signup
+                            </button>
+                        </li>
+                        <li>
+                            <button id="logout">Logout</button>
+                        </li>
+                    </ul>
+                </nav>
+            </header>
+
+            <main>
+                <div class="form-container">
+                    <h1 id="result"></h1>
+                    <form id="reviewForm">
+                        <select id="reviewType">
+                            <option value="">Select Type</option>
+                            <option value="university">University</option>
+                            <option value="professor">Professor</option>
+                            <option value="course">Course</option>
+                        </select>
+                        Review Title:
+                        <input
+                            id="reviewTitle"
+                            type="text"
+                            name="reviewTitle"
+                        /><br />
+                        Rating:
+                        <select id="rating">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                        <br />
+                        University Name:
+                        <input
+                            id="university"
+                            type="text"
+                            name="universityName"
+                        /><br />
+                        <div id="universityFields" style="display: none"></div>
+
+                        <div id="professorFields" style="display: none">
+                            Professor Name:
+                            <input
+                                id="professor"
+                                type="text"
+                                name="professorName"
+                            /><br />
+                            Course Name:
+                            <input
+                                id="courseP"
+                                type="text"
+                                name="courseNameP"
+                            /><br />
+                            Clarity:
+                            <select id="clarity">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                            </select>
+                            <br />
+                            Grading Difficulty:
+                            <select id="grading">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                            </select>
+                            <br />
+                            Helpfulness:
+                            <select id="helpfulness">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                            </select>
+                            <br />
+                        </div>
+
+                        <div id="courseFields" style="display: none">
+                            Course Name:
+                            <input
+                                id="courseC"
+                                type="text"
+                                name="courseNameC"
+                            /><br />
+                            Difficulty:
+                            <select id="difficulty">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                            </select>
+                            <br />
+                            Enjoyment:
+                            <select id="enjoyment">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                            </select>
+                            <br />
+                            Material:
+                            <select id="material">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                            </select>
+                            <br />
+                            Grade:
+                            <select id="grade">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                            </select>
+                            <br />
+                        </div>
+
+                        Review Text:
+                        <input id="reviewText" type="text" name="review"></input><br />
+                        <br />
+                        <input
+                            type="button"
+                            id="submit"
+                            class="custom-button"
+                            value="Submit Review!"
+                            onclick="submitReview()"
+                        />
+                    </form>
+                </div>
+            </main>
+        </body>
+    </html>

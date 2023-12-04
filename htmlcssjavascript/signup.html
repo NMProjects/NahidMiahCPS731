@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+    <meta charset="UTF-8" />
+    <title>Review</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <link rel="stylesheet" href="index.css" />
+    <script src="navbar.js"></script>
+    <script>
+        async function signUp() {
+            var resultMsg = document.getElementById("result");
+            var name = document.getElementById("name").value;
+            var password = document.getElementById("password").value;
+
+            if (name == "") {
+                resultMsg.innerText = "USERNAME CANNOT BE EMPTY";
+                return;
+            }
+            if (password == "") {
+                resultMsg.innerText = "PASSWORD CANNOT BE EMPTY";
+                return;
+            }
+
+            var data = {
+                name: name,
+                password: password,
+            };
+
+            const response = await fetch("http://localhost:3000/signUp/", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data),
+            });
+
+            if (response.ok) {
+                resultMsg.innerText = "User Signed UP!";
+                await localStorage.setItem("login", name);
+                window.location.href = "./index.html";
+            } else {
+                resultMsg.innerText = "Username is taken!";
+            }
+        }
+    </script>
+
+    <body>
+        <header>
+            <nav>
+                <ul>
+                    <li>
+                        <button onclick="window.location.href='index.html'">
+                            Home
+                        </button>
+                    </li>
+                    <li>
+                        <button
+                            id="review"
+                            onclick="window.location.href='review.html'"
+                        >
+                            Write a review
+                        </button>
+                    </li>
+                    <li>
+                        <button onclick="window.location.href='professor.html'">
+                            View Professor
+                        </button>
+                    </li>
+                    <li>
+                        <button onclick="window.location.href='course.html'">
+                            View Course
+                        </button>
+                    </li>
+                    <li>
+                        <button
+                            onclick="window.location.href='university.html'"
+                        >
+                            View University
+                        </button>
+                    </li>
+                    <li>
+                        <button
+                            id="login"
+                            onclick="window.location.href='login.html'"
+                        >
+                            Login
+                        </button>
+                    </li>
+                    <li>
+                        <button
+                            id="signup"
+                            onclick="window.location.href='signup.html'"
+                        >
+                            Signup
+                        </button>
+                    </li>
+                    <li>
+                        <button id="logout">Logout</button>
+                    </li>
+                </ul>
+            </nav>
+        </header>
+
+        <main>
+            <section>
+                <h1 id="result"></h1>
+                <form>
+                    <label for="name">Username:</label><br />
+                    <input type="text" id="name" name="name" required /><br />
+                    <label for="password">Password:</label><br />
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                    /><br /><br />
+                    <input
+                        type="button"
+                        class="custom-button"
+                        value="Sign Up"
+                        onclick="signUp()"
+                    />
+                </form>
+            </section>
+        </main>
+    </body>
+</html>
